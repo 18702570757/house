@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.etc.dao.HouseDAO">
+    <insert id="fabu">
+INSERT INTO `t_house` (
+
+	`h_name`,
+	`h_rect`,
+	`h_date`,
+	`h_loc1`,
+	`h_loc2`,
+	`h_img`,
+	`user_id`
+)
+VALUES
+	(
+
+		#{hName},
+		#{hRect},
+		#{hDate},
+		#{hLoc1},
+		#{hLoc2},
+		#{hImg},
+		#{user.userId}
+	);
+	</insert>
+	<select id="search" resultType="house">
+		select * from t_house
+        <where>
+
+            <if test="name!=null">
+                h_name like '%${name}%'
+            </if>
+            <if test="minRect!=null and maxRect!=null ">
+                and h_rect between #{minRect} and #{maxRect}
+            </if>
+
+
+
+        </where>
+	</select>
+	<delete id="delete">
+		delete from t_house where h_id=#{hId};
+	</delete>
+	<update id="update">
+		UPDATE t_house
+SET
+ h_name = #{hName},
+ h_rect = #{hRect},
+ h_date = #{hDate},
+ h_loc1 = #{hLoc1},
+ h_loc2 = #{hLoc2}
+
+
+WHERE
+	h_id = #{hId};
+	</update>
+	<select id="select" resultType="house">
+		select * from t_house where h_id=#{hId};
+	</select>
+	<select id="guanli" resultType="house">
+		select * from t_house where user_id=#{userId}
+	</select>
+</mapper>
